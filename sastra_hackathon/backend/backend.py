@@ -7,9 +7,9 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend communication
 
 # 🔑 API Configurations
-API_KEY = "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"
+API_KEY = "**************************************************" #REPLACE WITH YOUR GROQ API KEY
 API_URL = "https://api.groq.com/openai/v1/chat/completions"
-GOLD_API_URL = "https://api.metals.live/v1/spot"  # Free gold price API
+# GOLD_API_URL = "https://api.metals.live/v1/spot"  # Free gold price API
 NEWS_API_KEY = "5254080d13eb4b4d8c7e425785d03eff"  # Replace with a valid NewsAPI key
 NEWS_API_URL = "https://newsapi.org/v2/top-headlines"
 
