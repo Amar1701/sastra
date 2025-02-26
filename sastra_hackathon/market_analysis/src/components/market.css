@@ -1,0 +1,94 @@
+/* General Styling */
+body {
+  font-family: "Poppins", sans-serif;
+  background: #f4f6f9;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main Container */
+.market-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+/* Title */
+.market-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Search Box */
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+}
+
+.search-box .search-icon {
+  font-size: 18px;
+  color: #666;
+  margin-right: 10px;
+}
+
+.search-box button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.search-box button:hover {
+  background: #0056b3;
+}
+
+/* Results Card */
+.results-card {
+  margin-top: 20px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.results-card h2 {
+  font-size: 20px;
+  color: #333;
+}
+
+.results-card ul {
+  text-align: left;
+  padding: 0;
+  list-style-type: none;
+}
+
+.results-card ul li {
+  background: #eef2ff;
+  padding: 8px;
+  margin: 6px 0;
+  border-radius: 6px;
+}

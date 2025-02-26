@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat - Business Insights</title>
+    <style>
+        /* General Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter", sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #F4F4F4;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #333;
+            text-align: center;
+        }
+
+        .input-box {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            background: white;
+        }
+
+        .input-box input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            background: transparent;
+        }
+
+        .input-box .icon {
+            font-size: 18px;
+            color: #666;
+            margin-right: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        /* Chat Container */
+        #chat-container {
+            margin-top: 20px;
+            height: 400px;
+            overflow-y: auto;
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 16px;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Message Bubbles */
+        .message {
+            padding: 12px;
+            border-radius: 10px;
+            max-width: 85%;
+            margin-bottom: 10px;
+            word-wrap: break-word;
+            line-height: 1.5;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background: #007BFF;
+            color: white;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background: #eaeaea;
+            color: black;
+        }
+
+        /* Improved Text Styling */
+        .message h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #222;
+        }
+
+        .message p {
+            margin-bottom: 5px;
+        }
+
+        .message ul {
+            padding-left: 18px;
+            margin-top: 5px;
+        }
+
+        .message ul li {
+            margin-bottom: 5px;
+        }
+
+        /* Scrollbar Customization */
+        #chat-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #chat-container::-webkit-scrollbar-thumb {
+            background-color: #007BFF;
+            border-radius: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>💡 Business Insights Chat</h2>
+
+        <div class="input-box">
+            <span class="icon">💬</span>
+            <input type="text" id="query" placeholder="Ask your business question...">
+        </div>
+
+        <button onclick="fetchTrend()">Get Insights</button>
+
+        <!-- Scrollable Chat Container -->
+        <div id="chat-container"></div>
+    </div>
+
+    <script>
+        async function fetchTrend() {
+            const query = document.getElementById("query").value;
+            const chatContainer = document.getElementById("chat-container");
+
+            if (!query.trim()) {
+                addMessage("<b>Please enter a valid query.</b>", "bot");
+                return;
+            }
+
+            addMessage(`<b>You:</b> ${query}`, "user");
+            addMessage("⏳ Fetching insights...", "bot");
+
+            try {
+                const response = await fetch("http://127.0.0.1:5000/analyze", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ query })
+                });
+
+                const data = await response.json();
+                if (data.choices && data.choices.length > 0) {
+                    const content = formatResponse(data.choices[0].message.content);
+                    addMessage(content, "bot");
+                } else {
+                    addMessage("<b>No insights available.</b>", "bot");
+                }
+            } catch (error) {
+                addMessage("<b>Error fetching data. Please try again.</b>", "bot");
+            }
+        }
+
+        function addMessage(text, sender) {
+            const chatContainer = document.getElementById("chat-container");
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", sender === "user" ? "user-message" : "bot-message");
+            messageDiv.innerHTML = text;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function formatResponse(response) {
+            return response
+                .replace(/\*\*(.*?)\*\*/g, "<h3>$1</h3>")  // Convert bold to headings
+                .replace(/\n- /g, "<ul><li>")              // Convert lists
+                .replace(/\n/g, "</li><li>")              // Ensure proper list formatting
+                .replace(/<\/li><li>$/, "</li></ul>");   // Close lists properly
+        }
+    </script>
+
+</body>
+</html>
